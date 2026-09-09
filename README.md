@@ -4,7 +4,6 @@
 **Developer account:** `tyh24647@gmail.com`  
 **Apple Developer Team ID:** `3ZFSS4SN58`  
 **Bundle identifier:** `com.tyh24647.RegexDojo`  
-**Primary test device UDID:** `00008150-000579EE3E40401C`  
 **Updated:** 2026-09-09
 
 RegexDojo is a SwiftUI regular-expression learning app with **25 progressive lessons and 125 exercises**. Every exercise contains four required matches, rejection cases, live ICU/`NSRegularExpression` validation, persisted drafts and progress, hints, a three-minute solution unlock, and an optional AI tutor that appears after two minutes.
