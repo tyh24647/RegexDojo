@@ -1,0 +1,13 @@
+{
+  "images" : [
+    {
+      "filename" : "BrandIcon.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    }
+  ],
+  "info" : {
+    "author" : "Tyler Hostager",
+    "version" : 1
+  }
+}
