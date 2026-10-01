@@ -70,8 +70,7 @@ struct ExerciseView: View {
 
                         TextField("Type a regular expression", text: patternBinding, axis: .vertical)
                             .font(settings.regexFont(size: 20))
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled()
+                            .applyTextInputOptions()
                             .padding(12)
                             .background(.background.opacity(0.7), in: RoundedRectangle(cornerRadius: 12))
 
@@ -161,7 +160,9 @@ struct ExerciseView: View {
             .padding(.bottom, 76)
         }
         .navigationTitle("Exercise \(exerciseNumber)")
+        #if os(iOS) || os(tvOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
         .overlay(alignment: .bottomTrailing) {
             AIHelpButton(
                 exercise: exercise,
@@ -195,6 +196,26 @@ struct ExerciseView: View {
         if progress.isLessonCompleted(lesson) {
             router.showCompletion(for: lesson)
         }
+    }
+}
+
+private extension View {
+    @ViewBuilder
+    func applyTextInputOptions() -> some View {
+        #if os(iOS)
+        if #available(iOS 15.0, *) {
+            self
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled(true)
+        } else {
+            // Fallback for iOS versions prior to 15
+            self
+                .autocapitalization(.none)
+        }
+        #else
+        // Non-iOS platforms: no-op
+        self
+        #endif
     }
 }
 
@@ -275,3 +296,4 @@ private struct SolutionCard: View {
         String(format: "%d:%02d", seconds / 60, seconds % 60)
     }
 }
+
