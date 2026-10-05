@@ -6,9 +6,9 @@
 **Bundle identifier:** `com.tyh24647.RegexDojo`  
 **Updated:** 2026-09-09
 
-<img width="2098" height="749" alt="image" src="https://github.com/user-attachments/assets/cf1ccbbf-a782-4f8e-b909-0a58d6de2ad9" />
-
 RegexDojo is a SwiftUI regular-expression learning app with **25 progressive lessons and 125 exercises**. Every exercise contains four required matches, rejection cases, live ICU/`NSRegularExpression` validation, persisted drafts and progress, hints, a three-minute solution unlock, and an optional AI tutor that appears after two minutes.
+
+<img width="2098" height="749" alt="image" src="https://github.com/user-attachments/assets/cf1ccbbf-a782-4f8e-b909-0a58d6de2ad9" />
 
 ## Run it
 
