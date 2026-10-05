@@ -6,6 +6,8 @@
 **Bundle identifier:** `com.tyh24647.RegexDojo`  
 **Updated:** 2026-09-09
 
+An interactive iOS app for mastering regular expressions through 25 progressive lessons and 120+ hands-on exercises, from basic pattern matching to advanced regex techniques.
+
 RegexDojo is a SwiftUI regular-expression learning app with **25 progressive lessons and 125 exercises**. Every exercise contains four required matches, rejection cases, live ICU/`NSRegularExpression` validation, persisted drafts and progress, hints, a three-minute solution unlock, and an optional AI tutor that appears after two minutes.
 
 ## Run it
