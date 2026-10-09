@@ -40,7 +40,9 @@ struct PlaygroundView: View {
                             .font(.headline)
                         TextField("Regex", text: $pattern, axis: .vertical)
                             .font(settings.regexFont(size: 17))
+                        #if os(iOS) || os(tvOS) || os(visionOS) || os(watchOS)
                             .textInputAutocapitalization(.never)
+                        #endif
                             .autocorrectionDisabled()
                     }
                 }
@@ -60,7 +62,9 @@ struct PlaygroundView: View {
             .padding()
         }
         .navigationTitle("Playground")
+        #if os(iOS) || os(tvOS) || os(visionOS) || os(watchOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
     }
 }
 
@@ -99,3 +103,4 @@ private struct PlaygroundResult: View {
         }
     }
 }
+

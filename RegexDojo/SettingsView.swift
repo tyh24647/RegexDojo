@@ -32,7 +32,9 @@ struct SettingsView: View {
             aboutSection
         }
         .navigationTitle("Settings")
+#if os(iOS) || os(tvOS) || os(visionOS) || os(watchOS)
         .navigationBarTitleDisplayMode(.inline)
+#endif
         .fileImporter(
             isPresented: $showFontImporter,
             allowedContentTypes: [trueTypeFont, openTypeFont],
