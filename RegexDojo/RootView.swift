@@ -166,7 +166,9 @@ private struct CourseHomeView: View {
             }
         }
         .navigationTitle("Course")
+#if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+#endif
     }
 }
 

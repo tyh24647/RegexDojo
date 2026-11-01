@@ -96,13 +96,24 @@ struct AIAssistantView: View {
                 }
             }
             .navigationTitle("Regex AI Tutor")
+            #if os(iOS) || os(visionOS) || os(tvOS) || os(watchOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar {
+                #if os(iOS)
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Done") {
                         dismiss()
                     }
                 }
+                #else
+                // macOS: use a confirmation action placement for a trailing-style button
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+                #endif
             }
             .tint(settings.accentColor)
         }
@@ -262,3 +273,4 @@ final class RegexTutorModel: ObservableObject {
         }
     }
 }
+

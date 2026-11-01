@@ -102,7 +102,9 @@ struct LessonDetailView: View {
             .padding()
         }
         .navigationTitle("Lesson \(lesson.number)")
+#if os(iOS) || os(visionOS)
         .navigationBarTitleDisplayMode(.inline)
+#endif
     }
 }
 

@@ -9,6 +9,8 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
+import ImageIO
 
 /// Celebration screen shown after all exercises in a lesson have been completed.
 struct LessonCompletionView: View {
@@ -119,7 +121,9 @@ struct LessonCompletionView: View {
             .padding()
         }
         .navigationTitle("Completed")
+#if os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
         .navigationBarTitleDisplayMode(.inline)
+#endif
         .task(id: lesson.id) {
             shareURL = await CompletionShareRenderer.makeShareImage(
                 lesson: lesson,
@@ -170,9 +174,17 @@ private enum CompletionShareRenderer {
         let renderer = ImageRenderer(content: view)
         renderer.scale = 1
 
-        guard let image = renderer.uiImage,
-            let data = image.pngData()
-        else {
+        guard let cgImage = renderer.cgImage else {
+            return nil
+        }
+
+        // Encode the CGImage as PNG data using Image I/O so this works on all platforms.
+        let data = NSMutableData()
+        guard let dest = CGImageDestinationCreateWithData(data as CFMutableData, UTType.png.identifier as CFString, 1, nil) else {
+            return nil
+        }
+        CGImageDestinationAddImage(dest, cgImage, nil)
+        guard CGImageDestinationFinalize(dest) else {
             return nil
         }
 
@@ -180,7 +192,7 @@ private enum CompletionShareRenderer {
         let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
 
         do {
-            try data.write(to: url, options: .atomic)
+            try (data as Data).write(to: url, options: .atomic)
             return url
         } catch {
             return nil

@@ -10,7 +10,12 @@
 
 import Foundation
 import SwiftUI
+#if canImport(UIKit)
 import UIKit
+#endif
+#if canImport(AppKit)
+import AppKit
+#endif
 
 /// Main-actor store for user-configurable appearance, typography, and settings synchronization.
 @MainActor
@@ -59,21 +64,81 @@ final class AppSettings: ObservableObject {
         var color: Color {
             switch self {
             case .blue:
+                #if canImport(UIKit)
                 return Color(uiColor: .systemBlue)
+                #elseif canImport(AppKit)
+                return Color(nsColor: .systemBlue)
+                #else
+                return .blue
+                #endif
             case .indigo:
+                #if canImport(UIKit)
                 return Color(uiColor: .systemIndigo)
+                #elseif canImport(AppKit)
+                if #available(macOS 12.0, *) {
+                    return Color(nsColor: .systemIndigo)
+                } else {
+                    return .indigo
+                }
+                #else
+                return .indigo
+                #endif
             case .purple:
+                #if canImport(UIKit)
                 return Color(uiColor: .systemPurple)
+                #elseif canImport(AppKit)
+                return Color(nsColor: .systemPurple)
+                #else
+                return .purple
+                #endif
             case .pink:
+                #if canImport(UIKit)
                 return Color(uiColor: .systemPink)
+                #elseif canImport(AppKit)
+                return Color(nsColor: .systemPink)
+                #else
+                return .pink
+                #endif
             case .orange:
+                #if canImport(UIKit)
                 return Color(uiColor: .systemOrange)
+                #elseif canImport(AppKit)
+                return Color(nsColor: .systemOrange)
+                #else
+                return .orange
+                #endif
             case .green:
+                #if canImport(UIKit)
                 return Color(uiColor: .systemGreen)
+                #elseif canImport(AppKit)
+                return Color(nsColor: .systemGreen)
+                #else
+                return .green
+                #endif
             case .mint:
+                #if canImport(UIKit)
                 return Color(uiColor: .systemMint)
+                #elseif canImport(AppKit)
+                if #available(macOS 12.0, *) {
+                    return Color(nsColor: .systemMint)
+                } else {
+                    return .mint
+                }
+                #else
+                return .mint
+                #endif
             case .teal:
+                #if canImport(UIKit)
                 return Color(uiColor: .systemTeal)
+                #elseif canImport(AppKit)
+                if #available(macOS 12.0, *) {
+                    return Color(nsColor: .systemTeal)
+                } else {
+                    return .teal
+                }
+                #else
+                return .teal
+                #endif
             }
         }
     }
@@ -240,7 +305,14 @@ final class AppSettings: ObservableObject {
             Color(rgbaHex: customAccentHex) ?? .blue
         }
         set {
+            #if canImport(UIKit)
             customAccentHex = UIColor(newValue).rgbaHexString ?? customAccentHex
+            #elseif canImport(AppKit)
+            customAccentHex = NSColor(newValue).rgbaHexString ?? customAccentHex
+            #else
+            // Fallback: keep previous if we cannot convert
+            customAccentHex = customAccentHex
+            #endif
             accentMode = .custom
         }
     }
@@ -436,6 +508,7 @@ extension Color {
     }
 }
 
+#if canImport(UIKit)
 extension UIColor {
     /// Serializes a convertible RGB color as `#RRGGBBAA` for settings persistence.
     fileprivate var rgbaHexString: String? {
@@ -457,3 +530,26 @@ extension UIColor {
         )
     }
 }
+#endif
+
+#if canImport(AppKit)
+extension NSColor {
+    /// Serializes a convertible RGB color as `#RRGGBBAA` for settings persistence.
+    fileprivate var rgbaHexString: String? {
+        let color = usingColorSpace(.extendedSRGB) ?? self
+        let red = color.redComponent
+        let green = color.greenComponent
+        let blue = color.blueComponent
+        let alpha = color.alphaComponent
+
+        return String(
+            format: "#%02X%02X%02X%02X",
+            Int(round(red * 255)),
+            Int(round(green * 255)),
+            Int(round(blue * 255)),
+            Int(round(alpha * 255))
+        )
+    }
+}
+#endif
+

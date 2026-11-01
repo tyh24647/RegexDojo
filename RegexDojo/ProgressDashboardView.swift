@@ -86,7 +86,9 @@ struct ProgressDashboardView: View {
             .padding()
         }
         .navigationTitle("Progress")
+#if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+#endif
         .confirmationDialog(
             "Reset all course progress?",
             isPresented: $confirmReset,
